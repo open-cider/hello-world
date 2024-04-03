@@ -1,18 +1,25 @@
 <script lang="ts">
 import LogoText from '@/components/LogoText.vue';
-import SummaryData from '@/components/SummaryData.vue';
-import { fetchDetails } from '@/utils/client';
-import type { User } from '@/utils/interfaces';
+import SummaryDataView from '@/components/SummaryDataView.vue';
+import { fetchDetails, getSummaryData } from '@/utils/client';
+import type { SummaryData, User } from '@/utils/interfaces';
 
 
 export default {
-    components: { LogoText, SummaryData },
+    components: { LogoText, SummaryDataView },
     mounted() {
         fetchDetails().then(user => {
             if (user.username == '') {
                 this.$router.push('/auth')
             } else {
                 this.document = user
+                getSummaryData().then(data => {
+                    if (data.metric1 == 0) {
+                        console.log("Something went wrong: " + data)
+                    } else {
+                        this.summaryData = data
+                    }
+                })
             }
         }).catch(() => this.$router.push('/auth'))
     },
@@ -23,7 +30,8 @@ export default {
     },
     data() {
         return {
-            document: {} as User
+            document: {} as User,
+            summaryData: {} as SummaryData
         }
     }
 }
@@ -63,7 +71,7 @@ export default {
                     In most cases, this would be top level information as shown below.
                 </p>
                 
-                <SummaryData />
+                <SummaryDataView :visit-count="summaryData.metric1" :xp="summaryData.metric2" />
                 
                 <p>
                     <span>Note:</span> data store with the Summary Data API is also stored in <span>blockchain-like</span> fashion. 

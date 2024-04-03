@@ -2,6 +2,12 @@
 import SummaryDataItem from './SummaryDataItem.vue'
 import ToolingIcon from './icons/IconTooling.vue'
 import SupportIcon from './icons/IconSupport.vue'
+import { defineProps } from "vue";
+
+const props = defineProps({
+    visitCount: Number,
+    xp: Number
+})
 </script>
 
 <template>
@@ -14,7 +20,7 @@ import SupportIcon from './icons/IconSupport.vue'
             <template #heading>
                 <h3>Visit Count</h3>
             </template>
-            <h1 class="data-value">10</h1>
+            <h1 class="data-value">{{ visitCount }}</h1>
         </SummaryDataItem>
 
         <SummaryDataItem>
@@ -24,10 +30,11 @@ import SupportIcon from './icons/IconSupport.vue'
             <template #heading>
                 <h3>XP</h3>
             </template>
-            <h1 class="data-value">10</h1>
+            <h1 class="data-value">{{ xp }}</h1>
         </SummaryDataItem>
     </div>
 </template>
+
 
 <style scoped>
 h3 {
