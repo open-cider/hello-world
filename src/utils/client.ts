@@ -58,7 +58,7 @@ export async function getSummaryData(): Promise<SummaryData> {
     if (!store.isAuthenticated) {
         return Promise.reject('Cannot fetch details for unauthenticated user')
     } else {
-        const res = await client.get(`/query/summary-data?token=${store.$state.token}`)
+        const res = await client.get(`/summary-data?token=${store.$state.token}`)
         const data: SummaryData = res.data.response 
         return data
     }
@@ -73,7 +73,7 @@ async function updateSummaryData(): Promise<void> {
     if (!store.isAuthenticated) {
         return Promise.reject('Cannot update summary data for unauthenticated user')
     } else {
-        await client.post('/query/summary-data', {
+        await client.post('/summary-data', {
             token: store.$state.token,
             metric0: 'Shared settings here...',
             metric1: 1,
@@ -99,7 +99,7 @@ export async function fetchDetails(): Promise<User> {
         if (!store.isDocumentNull) {
             return Promise.resolve(store.document)
         } else {
-            const res = await client.get(`/query/document?token=${store.$state.token}`)
+            const res = await client.get(`/document?token=${store.$state.token}`)
             const document: User = res.data.response
             store.add(document)
             return document
